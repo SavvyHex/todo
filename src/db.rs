@@ -3,9 +3,9 @@ use rusqlite::{params, Connection, Result};
 #[derive(Debug)]
 #[allow(dead_code)]
 pub struct Task {
-    id : u8,
-    name : String,
-    completed : bool,
+    pub id : u8,
+    pub name : String,
+    pub completed : bool,
 }
 
 pub fn init_db () -> Result<Connection> {
@@ -37,4 +37,14 @@ pub fn get_todo(con:&Connection) -> Result<Vec<Task>> {
     })?;
 
     task_iter.collect()
+}
+
+pub fn del_todo(con:&Connection, id:u8) -> Result<()> {
+    con.execute("DELETE FROM todo WHERE id=(?1)", params![id])?;
+    Ok(())
+}
+
+pub fn complete_task(con:&Connection, id:u8) -> Result<()> {
+    con.execute("UPDATE todo SET completed=1 WHERE id=(?1)", params![id])?;
+    Ok(())
 }
