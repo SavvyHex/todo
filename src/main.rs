@@ -9,13 +9,19 @@ fn main() -> rusqlite::Result<()>{
     let args :Vec<String> = env::args().collect();
     match args[1].as_str() {
         "add" => {
-            add_todo(&con, args[2].as_str())?;
+            for i in 2..args.len() {
+                add_todo(&con, args[i].as_str())?;
+            }
         },
         "del" | "delete" => {
-            del_todo(&con, args[2].parse::<u8>().expect("Not a valid u8 integer"))?;
+            for i in 2..args.len() {
+                del_todo(&con, args[i].parse::<u8>().expect("Not a valid u8 integer"))?;
+            }
         },
         "done" => {
-            complete_task(&con, args[2].parse::<u8>().expect("Not a valid u8 integer"))?;
+            for i in 2..args.len() {
+                complete_task(&con, args[i].parse::<u8>().expect("Not a valid u8 integer"))?;
+            }
         }
         "show" => {
             let todos = get_todo(&con)?;
