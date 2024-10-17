@@ -111,7 +111,7 @@ This will reset the todo list, in other words, it will clear all elements from i
 
 ### Multiple Arguments
 
-The commands add, del and done can be used with multiple arguments, seperated by space
+The commands add, del and done can be used with multiple arguments, separated by space
 
 ```bash
     > todo add two three four
