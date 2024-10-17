@@ -10,16 +10,19 @@ fn main() -> rusqlite::Result<()>{
     match args[1].as_str() {
         "add" => {
             for i in 2..args.len() {
+                println!("Added element {} to the todo list", args[i]);
                 add_todo(&con, args[i].as_str())?;
             }
         },
         "del" | "delete" => {
             for i in 2..args.len() {
+                println!("Removed element {} from the todo list", args[i]);
                 del_todo(&con, args[i].parse::<u8>().expect("Not a valid u8 integer"))?;
             }
         },
         "done" => {
             for i in 2..args.len() {
+                println!("Marked element {} as done from the todo list", args[i]);
                 complete_task(&con, args[i].parse::<u8>().expect("Not a valid u8 integer"))?;
             }
         }
@@ -33,6 +36,7 @@ fn main() -> rusqlite::Result<()>{
             table.printstd();
         },
         "reset" => {
+            println!("Reset the todo list");
             let _ = reset_db();
         },
         _ => {
