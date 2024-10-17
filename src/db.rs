@@ -48,3 +48,8 @@ pub fn complete_task(con:&Connection, id:u8) -> Result<()> {
     con.execute("UPDATE todo SET completed=1 WHERE id=(?1)", params![id])?;
     Ok(())
 }
+
+pub fn reset_db() -> std::io::Result<()> {
+    std::fs::remove_file("todo.db")?;
+    Ok(())
+}

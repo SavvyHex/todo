@@ -1,7 +1,8 @@
 mod db;
 
 use std::env;
-use db::{init_db, add_todo, get_todo, del_todo, complete_task};
+use prettytable::{row, Table};
+use db::{init_db, add_todo, get_todo, del_todo, complete_task, reset_db,};
 
 fn main() -> rusqlite::Result<()>{
     let con = init_db()?;
@@ -18,9 +19,15 @@ fn main() -> rusqlite::Result<()>{
         }
         "show" => {
             let todos = get_todo(&con)?;
+            let mut table = Table::new();
+            table.add_row(row!["ID", "NAME" , "COMPLETED"]);
             for todo in todos {
-                println!("{}\t{}", todo.id, todo.name);
+                table.add_row(row![todo.id, todo.name, if todo.completed {"X"} else {"O"}]);
             }
+            table.printstd();
+        },
+        "reset" => {
+            let _ = reset_db();
         },
         _ => {
             println!("Not a valid command");
